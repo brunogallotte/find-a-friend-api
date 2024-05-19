@@ -19,6 +19,7 @@ model User {
   email         String   @unique
   password_hash String
   zip_code      String
+  state         String
   address       String
   phone         String
   created_at    DateTime @default(now())
@@ -27,19 +28,52 @@ model User {
   @@map("users")
 }
 
+enum AGE {
+  BABY
+  YOUNG
+  ADULT
+  SENIOR
+}
+
+enum ENERGY_LEVEL {
+  VERY_LOW
+  LOW
+  MEDIUM
+  HIGH
+  VERY_HIGH
+}
+
+enum INDEPENDENCE_LEVEL {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum SIZE {
+  SMALL
+  MEDIUM
+  BIG
+}
+
+enum ENVIRONMENT {
+  SPACIOUS
+  OUTDOOR
+  INDOOR
+}
+
 model Pets {
-  id                 String   @id @default(uuid())
+  id                 String             @id @default(uuid())
   name               String
   bio                String
-  age                String
-  size               String
-  energy_level       String
-  independence_level String
-  environment        String
+  age                AGE
+  size               SIZE
+  energy_level       ENERGY_LEVEL
+  independence_level INDEPENDENCE_LEVEL
+  environment        ENVIRONMENT
   pictures           String[]
-  created_at         DateTime @default(now())
+  created_at         DateTime           @default(now())
 
-  user   User   @relation(fields: [user_id], references: [id])
+  user    User   @relation(fields: [user_id], references: [id])
   user_id String
 
   @@map("pets")

@@ -2,6 +2,8 @@ import { UsersRepository } from '@/repositories/users-repository'
 import { hash } from 'bcryptjs'
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 import { User } from '@prisma/client'
+import { fetchWithZod } from '@/utils/fetchWithZod'
+import { z } from 'zod'
 
 interface RegisterUseCaseParamsRequest {
   name: string
@@ -35,11 +37,32 @@ export class RegisterUseCase {
       throw new UserAlreadyExistsError()
     }
 
+    const zipCodeRequestSchema = z.object({
+      cep: z.string(),
+      logradouro: z.string(),
+      complemento: z.string(),
+      bairro: z.string(),
+      localidade: z.string(),
+      uf: z.string(),
+      ibge: z.string(),
+      gia: z.string(),
+      ddd: z.string(),
+      siafi: z.string(),
+    })
+
+    const { uf } = await fetchWithZod(
+      `https://viacep.com.br/ws/${zipCode}/json/`,
+      {
+        schema: zipCodeRequestSchema,
+      },
+    )
+
     const user = await this.usersRepository.create({
       name,
       email,
       password_hash,
       zip_code: zipCode,
+      state: uf,
       address,
       phone,
     })

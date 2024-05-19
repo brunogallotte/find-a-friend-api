@@ -20,6 +20,7 @@ export class InMemoryUsersRepository implements UsersRepository {
       name: data.name,
       email: data.email,
       password_hash: data.password_hash,
+      state: data.state,
       zip_code: data.zip_code,
       address: data.address,
       phone: data.phone,
