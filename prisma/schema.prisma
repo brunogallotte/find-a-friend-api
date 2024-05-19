@@ -36,7 +36,7 @@ model Pets {
   energy_level       String
   independence_level String
   environment        String
-  pictures           Bytes
+  pictures           String[]
   created_at         DateTime @default(now())
 
   user   User   @relation(fields: [user_id], references: [id])
