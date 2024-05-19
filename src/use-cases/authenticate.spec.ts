@@ -7,13 +7,13 @@ import { InvalidCredentialsError } from './errors/invalid-credentials-error'
 describe('Authenticate Use Case', async () => {
   let usersRepository: InMemoryUsersRepository
   let registerUseCase: RegisterUseCase
-  let authenticateUseCase: AuthenticateUseCase
+  let sut: AuthenticateUseCase
   let email: string
 
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
     registerUseCase = new RegisterUseCase(usersRepository)
-    authenticateUseCase = new AuthenticateUseCase(usersRepository)
+    sut = new AuthenticateUseCase(usersRepository)
     email = 'john.doe@example.com'
   })
 
@@ -27,7 +27,7 @@ describe('Authenticate Use Case', async () => {
       phone: '123456789',
     })
 
-    const { user } = await authenticateUseCase.execute({
+    const { user } = await sut.execute({
       email,
       password: '123456789',
     })
@@ -37,7 +37,7 @@ describe('Authenticate Use Case', async () => {
 
   it('should return error when authenticating a non-existing user', async () => {
     await expect(
-      authenticateUseCase.execute({
+      sut.execute({
         email,
         password: '123456789',
       }),
@@ -55,7 +55,7 @@ describe('Authenticate Use Case', async () => {
     })
 
     await expect(
-      authenticateUseCase.execute({
+      sut.execute({
         email: 'wrong-email@example.com',
         password: '123456789',
       }),
@@ -73,7 +73,7 @@ describe('Authenticate Use Case', async () => {
     })
 
     await expect(
-      authenticateUseCase.execute({
+      sut.execute({
         email,
         password: 'wrong-password',
       }),
