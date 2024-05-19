@@ -4,11 +4,11 @@ import { Pets } from '@prisma/client'
 interface AddPetUseCaseParamsRequest {
   name: string
   bio: string
-  age: string
-  size: string
-  energy_level: string
-  independence_level: string
-  environment: string
+  age: 'BABY' | 'YOUNG' | 'ADULT' | 'SENIOR'
+  size: 'SMALL' | 'MEDIUM' | 'BIG'
+  energy_level: 'VERY_LOW' | 'LOW' | 'MEDIUM' | 'HIGH' | 'VERY_HIGH'
+  independence_level: 'LOW' | 'MEDIUM' | 'HIGH'
+  environment: 'SPACIOUS' | 'OUTDOOR' | 'INDOOR'
   user_id: string
   pictures: string[]
 }

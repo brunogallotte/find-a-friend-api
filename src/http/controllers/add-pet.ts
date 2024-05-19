@@ -5,12 +5,12 @@ import { z } from 'zod'
 export async function addPet(request: FastifyRequest, reply: FastifyReply) {
   const petSchema = z.object({
     name: z.string(),
-    age: z.string(),
+    age: z.enum(['BABY', 'YOUNG', 'ADULT', 'SENIOR']),
     bio: z.string(),
-    size: z.string(),
-    energy_level: z.string(),
-    independence_level: z.string(),
-    environment: z.string(),
+    size: z.enum(['SMALL', 'MEDIUM', 'BIG']),
+    energy_level: z.enum(['VERY_LOW', 'LOW', 'MEDIUM', 'HIGH', 'VERY_HIGH']),
+    independence_level: z.enum(['LOW', 'MEDIUM', 'HIGH']),
+    environment: z.enum(['SPACIOUS', 'OUTDOOR', 'INDOOR']),
     pictures: z.array(z.string()),
   })
 
