@@ -10,14 +10,12 @@ describe('Authenticate Use Case', async () => {
   let sut: AuthenticateUseCase
   let email: string
 
-  beforeEach(() => {
+  beforeEach(async () => {
     usersRepository = new InMemoryUsersRepository()
     registerUseCase = new RegisterUseCase(usersRepository)
     sut = new AuthenticateUseCase(usersRepository)
     email = 'john.doe@example.com'
-  })
 
-  it('should return success when authenticating an existing user', async () => {
     await registerUseCase.execute({
       name: 'John Doe',
       email,
@@ -26,7 +24,9 @@ describe('Authenticate Use Case', async () => {
       address: 'Rua 1',
       phone: '123456789',
     })
+  })
 
+  it('should return success when authenticating an existing user', async () => {
     const { user } = await sut.execute({
       email,
       password: '123456789',
@@ -38,22 +38,13 @@ describe('Authenticate Use Case', async () => {
   it('should return error when authenticating a non-existing user', async () => {
     await expect(
       sut.execute({
-        email,
+        email: 'inexistent-email@example.com',
         password: '123456789',
       }),
     ).rejects.toBeInstanceOf(InvalidCredentialsError)
   })
 
   it('should return error when authenticating a wrong email', async () => {
-    await registerUseCase.execute({
-      name: 'John Doe',
-      email,
-      password: '123456789',
-      zipCode: '25940220',
-      address: 'Rua 1',
-      phone: '123456789',
-    })
-
     await expect(
       sut.execute({
         email: 'wrong-email@example.com',
@@ -63,15 +54,6 @@ describe('Authenticate Use Case', async () => {
   })
 
   it('should return error when authenticating a wrong password', async () => {
-    await registerUseCase.execute({
-      name: 'John Doe',
-      email,
-      password: '123456789',
-      zipCode: '25940220',
-      address: 'Rua 1',
-      phone: '123456789',
-    })
-
     await expect(
       sut.execute({
         email,
