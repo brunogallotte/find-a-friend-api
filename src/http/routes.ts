@@ -4,6 +4,7 @@ import { authenticate } from './controllers/authenticate'
 import { addPet } from './controllers/add-pet'
 import { verifyJWT } from './middlewares/verify-jwt'
 import { refresh } from './controllers/refresh'
+import { getPetDetails } from './controllers/get-pet-details'
 
 export async function appRoutes(app: FastifyInstance) {
   app.post('/users', register)
@@ -12,4 +13,5 @@ export async function appRoutes(app: FastifyInstance) {
 
   /** Authorized **/
   app.post('/pets', { onRequest: [verifyJWT] }, addPet)
+  app.get('/pets/:id', { onRequest: [verifyJWT] }, getPetDetails)
 }
