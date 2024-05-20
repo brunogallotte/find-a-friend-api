@@ -10,9 +10,8 @@ export class PrismaPetsRepository implements PetsRepository {
   }
 
   async findManyByState(state: string): Promise<Pets[] | null> {
-    const pet = await prisma.pets.findMany({ where: { state } })
-
-    return pet
+    const pets = await prisma.pets.findMany({ where: { state } })
+    return pets
   }
 
   async findById(id: string): Promise<Pets | null> {
