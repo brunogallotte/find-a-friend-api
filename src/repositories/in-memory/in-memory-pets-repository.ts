@@ -14,11 +14,22 @@ export class InMemoryPetsRepository implements PetsRepository {
     return pet
   }
 
+  async findManyByState(query: string): Promise<Pets[] | null> {
+    const pets = this.items.filter((item) => item.state === query)
+
+    if (!pets) {
+      return null
+    }
+
+    return pets
+  }
+
   async create(data: Prisma.PetsUncheckedCreateInput): Promise<Pets> {
     const pet = {
       id: 'pet-01',
       name: data.name,
       bio: data.bio,
+      state: data.state,
       age: data.age,
       size: data.size,
       energy_level: data.energy_level,

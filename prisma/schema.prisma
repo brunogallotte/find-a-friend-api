@@ -65,6 +65,7 @@ model Pets {
   id                 String             @id @default(uuid())
   name               String
   bio                String
+  state              String
   age                AGE
   size               SIZE
   energy_level       ENERGY_LEVEL

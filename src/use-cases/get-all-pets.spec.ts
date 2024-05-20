@@ -1,16 +1,15 @@
 import { describe, expect, it } from 'vitest'
 import { InMemoryPetsRepository } from '@/repositories/in-memory/in-memory-pets-repository'
 import { AddPetUseCase } from './add-pet'
-import { GetPetDetailsUseCase } from './get-pet-details'
-import { PetNotFoundError } from './errors/pet-not-found-error'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
+import { GetAllPetsUseCase } from './get-all-pets'
 
-describe('Get pet details Use Case', async () => {
+describe('Get All Pets Use Case', async () => {
   it('should must be possible to return pet if exists', async () => {
     const petsRepository = new InMemoryPetsRepository()
     const usersRepository = new InMemoryUsersRepository()
     const addPetUseCase = new AddPetUseCase(petsRepository, usersRepository)
-    const sut = new GetPetDetailsUseCase(petsRepository)
+    const sut = new GetAllPetsUseCase(petsRepository)
 
     await usersRepository.create({
       name: 'John Doe',
@@ -34,17 +33,20 @@ describe('Get pet details Use Case', async () => {
       pictures: ['url_test'],
     })
 
-    const pet = await sut.execute('pet-01')
+    await addPetUseCase.execute({
+      name: 'John Doe',
+      age: 'BABY',
+      size: 'SMALL',
+      energy_level: 'LOW',
+      independence_level: 'LOW',
+      environment: 'INDOOR',
+      bio: 'test',
+      user_id: 'user-01',
+      pictures: ['url_test'],
+    })
 
-    expect(pet?.id).toEqual('pet-01')
-  })
+    const allPets = await sut.execute('SP')
 
-  it('should be return error if the pet does not exist', async () => {
-    const petsRepository = new InMemoryPetsRepository()
-    const sut = new GetPetDetailsUseCase(petsRepository)
-
-    expect(async () => await sut.execute('pet-01')).rejects.toBeInstanceOf(
-      PetNotFoundError,
-    )
+    expect(allPets).toHaveLength(2)
   })
 })

@@ -1,5 +1,7 @@
 import { PetsRepository } from '@/repositories/pets-repository'
+import { UsersRepository } from '@/repositories/users-repository'
 import { Pets } from '@prisma/client'
+import { InvalidCredentialsError } from './errors/invalid-credentials-error'
 
 interface AddPetUseCaseParamsRequest {
   name: string
@@ -18,7 +20,10 @@ interface AddPetUseCaseResponse {
 }
 
 export class AddPetUseCase {
-  constructor(private petsRepository: PetsRepository) {}
+  constructor(
+    private petsRepository: PetsRepository,
+    private usersRepository: UsersRepository,
+  ) {}
 
   async execute({
     age,
@@ -31,9 +36,16 @@ export class AddPetUseCase {
     independence_level,
     user_id,
   }: AddPetUseCaseParamsRequest): Promise<AddPetUseCaseResponse> {
+    const petOwonerUser = await this.usersRepository.findById(user_id)
+
+    if (!petOwonerUser) {
+      throw new InvalidCredentialsError()
+    }
+
     const pet = await this.petsRepository.create({
       name,
       bio,
+      state: petOwonerUser?.state,
       age,
       size,
       energy_level,
