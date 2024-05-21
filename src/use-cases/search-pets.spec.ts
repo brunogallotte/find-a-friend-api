@@ -2,14 +2,14 @@ import { describe, expect, it } from 'vitest'
 import { InMemoryPetsRepository } from '@/repositories/in-memory/in-memory-pets-repository'
 import { AddPetUseCase } from './add-pet'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
-import { GetAllPetsUseCase } from './get-all-pets'
+import { SearchPetsUseCase } from './search-pets'
 
 describe('Get All Pets Use Case', async () => {
-  it('should must be possible to return pet if exists', async () => {
+  it('should must be possible to return all pets in the same city', async () => {
     const petsRepository = new InMemoryPetsRepository()
     const usersRepository = new InMemoryUsersRepository()
     const addPetUseCase = new AddPetUseCase(petsRepository, usersRepository)
-    const sut = new GetAllPetsUseCase(petsRepository)
+    const sut = new SearchPetsUseCase(petsRepository)
 
     await usersRepository.create({
       name: 'John Doe',
@@ -36,6 +36,7 @@ describe('Get All Pets Use Case', async () => {
     await addPetUseCase.execute({
       name: 'John Doe',
       age: 'BABY',
+      city: '',
       size: 'SMALL',
       energy_level: 'LOW',
       independence_level: 'LOW',
@@ -45,7 +46,11 @@ describe('Get All Pets Use Case', async () => {
       pictures: ['url_test'],
     })
 
-    const allPets = await sut.execute('SP')
+    const allPets = await sut.execute({
+      city: 'SP',
+    })
+
+    console.log(allPets)
 
     expect(allPets).toHaveLength(2)
   })

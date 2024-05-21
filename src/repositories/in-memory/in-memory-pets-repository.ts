@@ -1,5 +1,5 @@
 import { Pets, Prisma } from '@prisma/client'
-import { PetsRepository } from '../pets-repository'
+import { PetsRepository, SearchPetsParams } from '../pets-repository'
 
 export class InMemoryPetsRepository implements PetsRepository {
   public items: Pets[] = []
@@ -14,8 +14,14 @@ export class InMemoryPetsRepository implements PetsRepository {
     return pet
   }
 
-  async findManyBycity(query: string): Promise<Pets[] | null> {
-    const pets = this.items.filter((item) => item.city === query)
+  async searchMany(params: SearchPetsParams): Promise<Pets[] | null> {
+    const pets = this.items
+      .filter((item) => item.city === params.city)
+      .filter((item) => item.age === params.age)
+      .filter((item) => item.size === params.size)
+      .filter((item) => item.energy_level === params.energy_level)
+      .filter((item) => item.independence_level === params.independence_level)
+      .filter((item) => item.environment === params.environment)
 
     if (!pets) {
       return null

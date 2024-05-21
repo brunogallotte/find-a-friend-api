@@ -1,6 +1,6 @@
-import { PrismaPetsRepository } from '@/repositories/prisma-pets-repository'
+import { PrismaPetsRepository } from '@/repositories/prisma/prisma-pets-repository'
 import { AddPetUseCase } from '../add-pet'
-import { PrismaUsersRepository } from '@/repositories/prisma-users-repository'
+import { PrismaUsersRepository } from '@/repositories/prisma/prisma-users-repository'
 
 export function makeAddPetUseCase() {
   const petsRepository = new PrismaPetsRepository()
