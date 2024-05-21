@@ -16,7 +16,7 @@ describe('Add Pet Use Case', async () => {
       zip_code: '25940220',
       address: 'Rua 1',
       phone: '123456789',
-      state: 'SP',
+      city: 'SP',
     })
 
     const { pet } = await sut.execute({

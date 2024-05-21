@@ -19,7 +19,7 @@ model User {
   email         String   @unique
   password_hash String
   zip_code      String
-  state         String
+  city          String
   address       String
   phone         String
   created_at    DateTime @default(now())
@@ -65,7 +65,7 @@ model Pets {
   id                 String             @id @default(uuid())
   name               String
   bio                String
-  state              String
+  city              String
   age                AGE
   size               SIZE
   energy_level       ENERGY_LEVEL

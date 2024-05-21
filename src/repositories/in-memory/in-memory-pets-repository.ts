@@ -14,8 +14,8 @@ export class InMemoryPetsRepository implements PetsRepository {
     return pet
   }
 
-  async findManyByState(query: string): Promise<Pets[] | null> {
-    const pets = this.items.filter((item) => item.state === query)
+  async findManyBycity(query: string): Promise<Pets[] | null> {
+    const pets = this.items.filter((item) => item.city === query)
 
     if (!pets) {
       return null
@@ -29,7 +29,7 @@ export class InMemoryPetsRepository implements PetsRepository {
       id: 'pet-01',
       name: data.name,
       bio: data.bio,
-      state: data.state,
+      city: data.city,
       age: data.age,
       size: data.size,
       energy_level: data.energy_level,

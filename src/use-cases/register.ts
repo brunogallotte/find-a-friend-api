@@ -50,7 +50,7 @@ export class RegisterUseCase {
       siafi: z.string(),
     })
 
-    const { uf } = await fetchWithZod(
+    const { localidade } = await fetchWithZod(
       `https://viacep.com.br/ws/${zipCode}/json/`,
       {
         schema: zipCodeRequestSchema,
@@ -62,7 +62,7 @@ export class RegisterUseCase {
       email,
       password_hash,
       zip_code: zipCode,
-      state: uf,
+      city: localidade,
       address,
       phone,
     })

@@ -45,7 +45,7 @@ export class AddPetUseCase {
     const pet = await this.petsRepository.create({
       name,
       bio,
-      state: petOwonerUser?.state,
+      city: petOwonerUser?.city,
       age,
       size,
       energy_level,

@@ -19,7 +19,7 @@ describe('Get pet details Use Case', async () => {
       zip_code: '25940220',
       address: 'Rua 1',
       phone: '123456789',
-      state: 'SP',
+      city: 'SP',
     })
 
     await addPetUseCase.execute({
