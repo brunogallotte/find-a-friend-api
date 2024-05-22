@@ -5,7 +5,7 @@ import { addPet } from './controllers/add-pet'
 import { verifyJWT } from './middlewares/verify-jwt'
 import { refresh } from './controllers/refresh'
 import { getPetDetails } from './controllers/get-pet-details'
-import { getAllPets } from './controllers/get-all-pets'
+import { searchPets } from './controllers/search-pets'
 
 export async function appRoutes(app: FastifyInstance) {
   app.post('/users', register)
@@ -15,5 +15,5 @@ export async function appRoutes(app: FastifyInstance) {
   /** Authorized **/
   app.post('/pets', { onRequest: [verifyJWT] }, addPet)
   app.get('/pets/:id', { onRequest: [verifyJWT] }, getPetDetails)
-  app.get('/pets/city/:query', { onRequest: [verifyJWT] }, getAllPets)
+  app.get('/pets', { onRequest: [verifyJWT] }, searchPets)
 }

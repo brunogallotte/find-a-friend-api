@@ -24,6 +24,7 @@ describe('Get All Pets Use Case', async () => {
     await addPetUseCase.execute({
       name: 'John Doe',
       age: 'BABY',
+      city: 'SP',
       size: 'SMALL',
       energy_level: 'LOW',
       independence_level: 'LOW',
@@ -36,7 +37,7 @@ describe('Get All Pets Use Case', async () => {
     await addPetUseCase.execute({
       name: 'John Doe',
       age: 'BABY',
-      city: '',
+      city: 'SP',
       size: 'SMALL',
       energy_level: 'LOW',
       independence_level: 'LOW',

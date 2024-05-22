@@ -6,6 +6,7 @@ import { InvalidCredentialsError } from './errors/invalid-credentials-error'
 interface AddPetUseCaseParamsRequest {
   name: string
   bio: string
+  city: string
   age: 'BABY' | 'YOUNG' | 'ADULT' | 'SENIOR'
   size: 'SMALL' | 'MEDIUM' | 'BIG'
   energy_level: 'VERY_LOW' | 'LOW' | 'MEDIUM' | 'HIGH' | 'VERY_HIGH'

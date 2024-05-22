@@ -1,9 +1,9 @@
 import { PrismaPetsRepository } from '@/repositories/prisma/prisma-pets-repository'
-import { GetAllPetsUseCase } from '../search-pets'
+import { SearchPetsUseCase } from '../search-pets'
 
-export function makeGetAllPetsUseCase() {
+export function makeSearchPetsUseCase() {
   const petsRepository = new PrismaPetsRepository()
-  const getAllPetsUseCase = new GetAllPetsUseCase(petsRepository)
+  const searchPetsUseCase = new SearchPetsUseCase(petsRepository)
 
-  return getAllPetsUseCase
+  return searchPetsUseCase
 }
