@@ -17,11 +17,19 @@ export class InMemoryPetsRepository implements PetsRepository {
   async searchMany(params: SearchPetsParams): Promise<Pets[] | null> {
     const pets = this.items
       .filter((item) => item.city === params.city)
-      .filter((item) => item.age === params.age)
-      .filter((item) => item.size === params.size)
-      .filter((item) => item.energy_level === params.energy_level)
-      .filter((item) => item.independence_level === params.independence_level)
-      .filter((item) => item.environment === params.environment)
+      .filter((item) => (params.age ? item.age === params.age : true))
+      .filter((item) => (params.size ? item.size === params.size : true))
+      .filter((item) =>
+        params.energy_level ? item.energy_level === params.energy_level : true,
+      )
+      .filter((item) =>
+        params.independence_level
+          ? item.independence_level === params.independence_level
+          : true,
+      )
+      .filter((item) =>
+        params.environment ? item.environment === params.environment : true,
+      )
 
     if (!pets) {
       return null
