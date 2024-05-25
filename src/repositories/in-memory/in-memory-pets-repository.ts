@@ -1,5 +1,6 @@
 import { Pets, Prisma } from '@prisma/client'
 import { PetsRepository, SearchPetsParams } from '../pets-repository'
+import { CityIsRequiredError } from '@/use-cases/errors/city-is-required-error'
 
 export class InMemoryPetsRepository implements PetsRepository {
   public items: Pets[] = []
@@ -15,7 +16,14 @@ export class InMemoryPetsRepository implements PetsRepository {
   }
 
   async searchMany(params: SearchPetsParams): Promise<Pets[] | null> {
-    const pets = this.items
+    if (!params.city) {
+      throw new CityIsRequiredError()
+    }
+
+    const petsByCity = this.items.filter((item) => item.city === params.city)
+
+    petsByCity
+      .filter((item) => petsByCity.some((pet) => item.id === pet.id))
       .filter((item) => item.city === params.city)
       .filter((item) => (params.age ? item.age === params.age : true))
       .filter((item) => (params.size ? item.size === params.size : true))
@@ -31,11 +39,11 @@ export class InMemoryPetsRepository implements PetsRepository {
         params.environment ? item.environment === params.environment : true,
       )
 
-    if (!pets) {
+    if (!petsByCity) {
       return null
     }
 
-    return pets
+    return petsByCity
   }
 
   async create(data: Prisma.PetsUncheckedCreateInput): Promise<Pets> {
