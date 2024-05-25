@@ -25,10 +25,12 @@ export async function addPet(request: FastifyRequest, reply: FastifyReply) {
     pictures,
   } = petSchema.parse(request.body)
 
+  let pet
+
   try {
     const addPetUseCase = makeAddPetUseCase()
 
-    await addPetUseCase.execute({
+    pet = await addPetUseCase.execute({
       name,
       age,
       bio,
@@ -43,5 +45,5 @@ export async function addPet(request: FastifyRequest, reply: FastifyReply) {
     return err
   }
 
-  return reply.status(201).send()
+  return reply.status(201).send(pet)
 }
