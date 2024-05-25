@@ -10,49 +10,49 @@ const petsRepository = new InMemoryPetsRepository()
 const addPetUseCase = new AddPetUseCase(petsRepository, usersRepository)
 const sut = new SearchPetsUseCase(petsRepository)
 
-beforeEach(async () => {
-  await usersRepository.create({
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    password_hash: '123456789',
-    zip_code: '25940220',
-    address: 'Rua 1',
-    phone: '123456789',
-    city: 'SP',
-  })
-
-  await addPetUseCase.execute({
-    name: 'John Doe',
-    age: 'BABY',
-    city: 'SP',
-    size: 'SMALL',
-    energy_level: 'LOW',
-    independence_level: 'LOW',
-    environment: 'INDOOR',
-    bio: 'test',
-    user_id: 'user-01',
-    pictures: ['url_test'],
-  })
-
-  await addPetUseCase.execute({
-    name: 'John Doe',
-    age: 'BABY',
-    city: 'SP',
-    size: 'SMALL',
-    energy_level: 'LOW',
-    independence_level: 'LOW',
-    environment: 'INDOOR',
-    bio: 'test',
-    user_id: 'user-01',
-    pictures: ['url_test'],
-  })
-})
-
-afterEach(() => {
-  petsRepository.items = []
-})
-
 describe('Get All Pets Use Case', async () => {
+  beforeEach(async () => {
+    await usersRepository.create({
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      password_hash: '123456789',
+      zip_code: '25940220',
+      address: 'Rua 1',
+      phone: '123456789',
+      city: 'SP',
+    })
+
+    await addPetUseCase.execute({
+      name: 'John Doe',
+      age: 'BABY',
+      city: 'SP',
+      size: 'SMALL',
+      energy_level: 'LOW',
+      independence_level: 'LOW',
+      environment: 'INDOOR',
+      bio: 'test',
+      user_id: 'user-01',
+      pictures: ['url_test'],
+    })
+
+    await addPetUseCase.execute({
+      name: 'John Doe',
+      age: 'BABY',
+      city: 'SP',
+      size: 'SMALL',
+      energy_level: 'LOW',
+      independence_level: 'LOW',
+      environment: 'INDOOR',
+      bio: 'test',
+      user_id: 'user-01',
+      pictures: ['url_test'],
+    })
+  })
+
+  afterEach(() => {
+    petsRepository.items = []
+  })
+
   it('should return an error if the city is not informed', async () => {
     await expect(
       sut.execute({
